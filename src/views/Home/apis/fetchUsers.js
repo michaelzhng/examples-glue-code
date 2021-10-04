@@ -6,7 +6,7 @@ import { getUsers } from '../../../apis/User';
  * Glue Code
  *
  * 在这里我们可以使用 JsDoc 来帮助我们规范前端代码内部的数据结构，
- * 这样使得我们能够 “面向接口开发”，这使得代码更加的易于维护
+ * 这样使得我们能够 “面向接口开发”，让代码更加的易于维护
  *
  * @returns {Promise<{ usernname: String }[]>}
  */
