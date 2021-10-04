@@ -1,7 +1,7 @@
 <template>
   <div v-if="isLoading">Loading...</div>
   <ul v-else>
-    <li v-for="user in users">
+    <li v-for="user in users" :key="user.username">
       {{ user.username }}
     </li>
   </ul>
@@ -19,7 +19,8 @@ async function initUsers() {
 
   try {
     // UI 组件并没有直接使用 src/apis/Users.js 来获取数据
-    // 而是将任务委托给了胶水代码 ./apis/fetchUsers.js，由它来为组件处理好数据
+    // 而是将任务委托给了胶水代码 ./apis/fetchUsers.js，由
+    // 它来为组件处理好数据
     users.value = await fetchUsers();
   } catch (error) {
     console.error(error);
