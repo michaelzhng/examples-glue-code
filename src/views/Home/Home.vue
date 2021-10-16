@@ -1,15 +1,17 @@
 <template>
   <div v-if="isLoading">Loading...</div>
   <ul v-else>
-    <li v-for="user in users" :key="user.username">
-      {{ user.username }}
+    <!-- 易受到后端接口变化而出错的地方：1 -->
+    <li v-for="user in users" :key="user.name">
+      <!-- 易受到后端接口变化而出错的地方：2 -->
+      {{ user.name }}
     </li>
   </ul>
 </template>
 
 <script setup>
 import { ref } from '@vue/reactivity';
-import { fetchUsers } from './apis/fetchUsers';
+import { getUsers } from '../../apis/User';
 
 const isLoading = ref(false);
 const users = ref([]);
@@ -18,10 +20,10 @@ async function initUsers() {
   isLoading.value = true;
 
   try {
-    // UI 组件并没有直接使用 src/apis/Users.js 来获取数据
-    // 而是将任务委托给了胶水代码 ./apis/fetchUsers.js，由
-    // 它来为组件处理好数据
-    users.value = await fetchUsers();
+    // 直接调用 getUsers 方法，如果后端返回结果的字段 “name”
+    // 发生变化，那么就需要修改组件模版内的取值
+    const res = await getUsers();
+    users.value = res.data;
   } catch (error) {
     console.error(error);
   }
